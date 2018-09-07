@@ -1,0 +1,19 @@
+version: '3'
+services:
+
+    db:
+      image: mysql:5.7
+      ports:
+        - "3306:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: 1
+
+
+    web:
+      build: .
+      depends_on:
+        - db
+      ports:
+        - "9999:8080"
+      command: ["wait-for-it.sh", "db:3306", "--", "catalina.sh", "run"]
+
